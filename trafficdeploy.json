@@ -65,25 +65,25 @@
       "location": "global",
       "name": "[concat(variables('trafficManagerName'),'/','primary')]",
       "properties": {
-        "targetResourceId": "[parameters('primaryId')]",
+        "targetResourceId": "[resourceId('Microsoft.Resources/resourceGroups','rg-primary-app','Microsoft.Web/sites','fun-app-786')]",
         "endpointStatus": "Enabled",
         "priority": "[parameters('primaryPriority')]"
       }
-     },
-     {
-      "apiVersion": "2018-08-01",
-      "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/trafficManagerProfiles/',variables('trafficManagerName'))]"
-      ],
-      "location": "global",
-      "name": "[concat(variables('trafficManagerName'),'/','secondary')]",
-      "properties": {
-        "targetResourceId": "[parameters('secondaryId')]",
-        "endpointStatus": "Enabled",
-        "priority": "[parameters('secondaryPriority')]"
-      }
      }
+    //  {
+    //   "apiVersion": "2018-08-01",
+    //   "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+    //   "dependsOn": [
+    //     "[resourceId('Microsoft.Network/trafficManagerProfiles/',variables('trafficManagerName'))]"
+    //   ],
+    //   "location": "global",
+    //   "name": "[concat(variables('trafficManagerName'),'/','secondary')]",
+    //   "properties": {
+    //     "targetResourceId": "[parameters('secondaryId')]",
+    //     "endpointStatus": "Enabled",
+    //     "priority": "[parameters('secondaryPriority')]"
+    //   }
+    //  }
     ],
     "outputs": {
         "output1": {
