@@ -54,6 +54,8 @@
              },
              "endpoints": [
                  {
+                     "name": "primary-endpoint",
+                     "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
                      "properties": {
                          "targetResourceId": "[parameters('primaryId')]",
                          "endpointStatus": "Enabled",
@@ -62,6 +64,8 @@
                      }
                  },
                  {
+                     "name": "secondary-endpoint",
+                     "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
                      "properties": {
                          "targetResourceId": "[parameters('secondaryId')]",
                          "endpointStatus": "Enabled",
