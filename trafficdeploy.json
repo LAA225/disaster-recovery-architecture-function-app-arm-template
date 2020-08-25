@@ -1,0 +1,77 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "primaryId": {
+            "type": "string",
+            "metadata": {
+                "description": "id of primary resource"
+            }
+        },
+        "primaryPriority": {
+            "type": "int",
+            "metadata": {
+                "description": "priority of primary resource"
+            }
+        },
+        "secondaryId": {
+            "type": "string",
+            "metadata": {
+                "description": "id of secondary resource"
+            }
+        },
+        "secondaryPriority": {
+            "type": "int",
+            "metadata": {
+                "description": "priority of secondary resource"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+     {
+         "name": "trafficManagerProfile1",
+         "type": "Microsoft.Network/trafficManagerProfiles",
+         "apiVersion": "2018-04-01",
+         "tags": {
+         },
+         "location": "global",
+         "properties": {
+             "profileStatus": "Enabled",
+             "trafficRoutingMethod": "Priority",
+             "dnsConfig": {
+                 "relativeName": "dnsConfig",
+                 "ttl": 30
+             },
+             "monitorConfig": {
+                 "protocol": "HTTP",
+                 "port": 80,
+                 "path": "path",
+                 "intervalInSeconds": 30,
+                 "timeoutInSeconds": 5,
+                 "toleratedNumberOfFailures": 3
+             },
+             "endpoints": [
+                 {
+                     "properties": {
+                         "targetResourceId": "[parameters('primaryId')]",
+                         "endpointStatus": "Enabled",
+                         "weight": 100,
+                         "priority": "[parameters('primaryPriority')]"
+                     }
+                 },
+                 {
+                     "properties": {
+                         "targetResourceId": "[parameters('secondaryId')]",
+                         "endpointStatus": "Enabled",
+                         "weight": 100,
+                         "priority": "[parameters('secondaryPriority')]"
+                     }
+                 }
+             ]
+         }
+     }
+    ],
+    "outputs": {}
+}
