@@ -54,6 +54,7 @@
              },
              "endpoints": [
                  {
+                     "name": "primaryEndpoint",
                      "properties": {
                          "targetResourceId": "[parameters('primaryId')]",
                          "endpointStatus": "Enabled",
@@ -62,6 +63,7 @@
                      }
                  },
                  {
+                     "name": "secondaryEndpoint",
                      "properties": {
                          "targetResourceId": "[parameters('secondaryId')]",
                          "endpointStatus": "Enabled",
