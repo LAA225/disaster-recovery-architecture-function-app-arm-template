@@ -28,12 +28,10 @@
         }
     },
     "functions": [],
-    "variables": {
-        "trafficManagerName": "trafficManagerProfile1"
-    },
+    "variables": {},
     "resources": [
      {
-         "name": "[variables('trafficManagerName')]",
+         "name": "trafficManagerProfile1",
          "type": "Microsoft.Network/trafficManagerProfiles",
          "apiVersion": "2018-04-01",
          "tags": {
@@ -53,37 +51,27 @@
                  "intervalInSeconds": 30,
                  "timeoutInSeconds": 5,
                  "toleratedNumberOfFailures": 3
-             }
+             },
+             "endpoints": [
+                 {
+                     "properties": {
+                         "targetResourceId": "[parameters('primaryId')]",
+                         "endpointStatus": "Enabled",
+                         "weight": 100,
+                         "priority": "[parameters('primaryPriority')]"
+                     }
+                 },
+                 {
+                     "properties": {
+                         "targetResourceId": "[parameters('secondaryId')]",
+                         "endpointStatus": "Enabled",
+                         "weight": 100,
+                         "priority": "[parameters('secondaryPriority')]"
+                     }
+                 }
+             ]
          }
-     },
-     {
-      "apiVersion": "2018-08-01",
-      "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/trafficManagerProfiles/',variables('trafficManagerName'))]"
-      ],
-      "location": "global",
-      "name": "[concat(variables('trafficManagerName'),'/','primary')]",
-      "properties": {
-        "targetResourceId": "[resourceId('Microsoft.Resources/resourceGroups','rg-primary-app','Microsoft.Web/sites','fun-app-786')]",
-        "endpointStatus": "Enabled",
-        "priority": "[parameters('primaryPriority')]"
-      }
      }
-    //  {
-    //   "apiVersion": "2018-08-01",
-    //   "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
-    //   "dependsOn": [
-    //     "[resourceId('Microsoft.Network/trafficManagerProfiles/',variables('trafficManagerName'))]"
-    //   ],
-    //   "location": "global",
-    //   "name": "[concat(variables('trafficManagerName'),'/','secondary')]",
-    //   "properties": {
-    //     "targetResourceId": "[parameters('secondaryId')]",
-    //     "endpointStatus": "Enabled",
-    //     "priority": "[parameters('secondaryPriority')]"
-    //   }
-    //  }
     ],
     "outputs": {
         "output1": {
