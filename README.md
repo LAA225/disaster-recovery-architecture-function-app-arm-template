@@ -1,8 +1,8 @@
 # disaster-recovery-architecture-linked-arm-template
 
-This arm template seeks to deploy the following achitecture:
+This arm template seeks to deploy a disaster recovery achitecture following the consupmtion plan of function apps. The architecture to be deployed is as follows:
 
-![architecture diagram](images/architecture diagram.png)
+![architecture diagram](/images/architecture diagram.png)
 
 The function apps contain the following resources:
 * storage account
@@ -53,6 +53,7 @@ The parent template file takes 5 parameters:
 1. Azure Subscription on Azure Portal
 2. Powershell
 3. Az module
+4. maindeploy.json to be downloaded from this repository
 
 #### Steps
 1. Sign in to Azure portal through powershell using the command:\
@@ -60,4 +61,14 @@ The parent template file takes 5 parameters:
 This gives a link to an http link and a code. Go to the link and enter the code to sign in.
 
 2. Create the necessary Resource groups you want to deploy the architecture in using:\
-     `New-AzResourceGroup -Name <name of rg> -location <location of rg>`\
+     `New-AzResourceGroup -name <name of rg> -location <location of rg>`\
+     This will create a resource group with the name given in your subscription\
+     ###### Note:
+     Create 3 rgs by using this command thrice. One for each app and one for the traffic manager.\
+     Make sure **location of the primary app rg should be different than the secondary app rg. (optimally they should be region pairs)**\
+     You can check out azure region pairs [here](https://docs.microsoft.com/en-us/azure/best-practices-availability-paired-regions)
+     
+3. Deploy the architecture using the command:\
+     `New-AzResourceGroupDeployment -ResourceGroupName <name of any of the rg you made> -TemplateFile <path to main.deploy.json> -rgName1 <name of rg for primary app> -rgName2 <name of rg for secondary app> -rgName3 <name of rg for traffic manager> -primaryPriority <priority for the primary app> -secondaryPriority <priority for the secondary app>`
+     
+     
