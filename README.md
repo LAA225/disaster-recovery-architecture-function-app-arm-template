@@ -7,11 +7,11 @@ This arm template seeks to deploy a disaster recovery achitecture following the 
 The function apps contain the following resources:
 * storage account
 * serverfarm
- * sku tier: Dynamic
+  * sku tier: Dynamic
 * Web/site
- * kind: windows functionapp
- * runtime: dotnet
- * runtime version: ~3
+  * kind: windows functionapp
+  * runtime: dotnet
+  * runtime version: ~3
 * insight component (for monitoring)
 
 The traffic Manger contains the following resources:
