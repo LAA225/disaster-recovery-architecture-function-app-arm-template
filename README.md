@@ -1,8 +1,8 @@
-# disaster-recovery-architecture-linked-arm-template
+# disaster-recovery-function-app-architecture-linked-arm-template
 
 This arm template seeks to deploy a disaster recovery achitecture following the consupmtion plan of function apps. The architecture to be deployed is as follows:
 
-![architecture diagram](/images/architecture diagram.png)
+![architecture diagram](images/architecture diagram.png)
 
 The function apps contain the following resources:
 * storage account
