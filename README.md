@@ -7,7 +7,11 @@ This arm template seeks to deploy a disaster recovery achitecture following the 
 The function apps contain the following resources:
 * storage account
 * serverfarm
-* Web/site (kind: windows functionapp)
+ * sku tier: Dynamic
+* Web/site
+ * kind: windows functionapp
+ * runtime: dotnet
+ * runtime version: ~3
 * insight component (for monitoring)
 
 The traffic Manger contains the following resources:
@@ -18,12 +22,12 @@ This deployment is incremental
 
 ## How it works
 
-Only need to deploy *maindeploy.json* with optional parameters which deploys everything else automatically.
+The maindeploy.json is the parent template file that contains linked template deployments. Each deployment is done to seperate resource groups (which are given using maindeploy.json's parameters). 
 
-The maindeploy.json is the parent template file that contains linked template deployments:
-* **Primary Function Deployment:** This linked template deploys the primary function app using template file *fundeploy.json* and it's parameter file *primarydeploy.parameters.json*
+The 3 deployments are:
+* **Primary Function Deployment:** This linked template deploys the primary function app using template file *fundeploy.json* and it's parameter file *primarydeploy.parameters.json*. Deploys a new storage account, windows function app, serverfarm to host the app, insight compoment to monitor the app.
 
-* **Secondary Function Deployment:** This linked template deploys the secondary function app using the template file *fundeploy.json* and it's parameter file *secondarydeploy.parameters.json*
+* **Secondary Function Deployment:** This linked template deploys the secondary function app using the template file *fundeploy.json* and it's parameter file *secondarydeploy.parameters.json*.  Deploys a new storage account, windows function app, serverfarm to host the app, insight compoment to monitor the app.
 
 * **Traffic Manager Deployment:** This linked template deploys the traffic manager using the template file *trafficdeploy.json*. it gets it's parameters from *maindeploy.json*. This deploys a traffic manager with 2 endpoints and 'Priority' based routing. These two endpoints are the primary and secondary function apps. These can be manually assigned priorities using parameters given to the parent template file as shown below.
 
