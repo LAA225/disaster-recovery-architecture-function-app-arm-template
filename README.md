@@ -13,6 +13,8 @@ The function apps contain the following resources:
 The traffic Manger contains the following resources:
 * Traffic Manager
 
+###### note: 
+This deployment is incremental
 
 ## How it works
 
@@ -23,9 +25,9 @@ The maindeploy.json is the parent template file that contains linked template de
 
 * **Secondary Function Deployment:** This linked template deploys the secondary function app using the template file *fundeploy.json* and it's parameter file *secondarydeploy.parameters.json*
 
-* **Traffic Manager Deployment:** This linked template deploys the traffic manager using the template file *trafficdeploy.json*. it gets it's parameters from *maindeploy.json*
+* **Traffic Manager Deployment:** This linked template deploys the traffic manager using the template file *trafficdeploy.json*. it gets it's parameters from *maindeploy.json*. This deploys a traffic manager with 2 endpoints and 'Priority' based routing. These two endpoints are the primary and secondary function apps. These can be manually assigned priorities using parameters given to the parent template file as shown below.
 
-The parent template file takes 5 parameters:
+#### Parent template file (maindeploy.json) parameters:
 * **RgName1:** Name of the resource group to deploy the primary function app to
   * type: string
   * defaultValaue: rg-primary-app
@@ -38,11 +40,11 @@ The parent template file takes 5 parameters:
   * type: string
   * defaultValaue: rg-primary-ap
   
-* **primaryPriority:** Priority to be assigned to the primary function app
+* **primaryPriority:** Priority to be assigned to the primary function app by the traffic manager
   * type: int
   * defaultValaue: 4
   
-* **secondaryPriority:** Priority to be assigned to the secondary function app
+* **secondaryPriority:** Priority to be assigned to the secondary function app by the traffic manager
   * type: int
   * defaultValaue: 8
  
@@ -69,6 +71,12 @@ This gives a link to an http link and a code. Go to the link and enter the code 
      You can check out azure region pairs [here](https://docs.microsoft.com/en-us/azure/best-practices-availability-paired-regions)
      
 3. Deploy the architecture using the command:\
-     `New-AzResourceGroupDeployment -ResourceGroupName <name of any of the rg you made> -TemplateFile <path to main.deploy.json> -rgName1 <name of rg for primary app> -rgName2 <name of rg for secondary app> -rgName3 <name of rg for traffic manager> -primaryPriority <priority for the primary app> -secondaryPriority <priority for the secondary app>`
-     
-     
+     ```
+     New-AzResourceGroupDeployment -ResourceGroupName <name of any of the rg you made> -TemplateFile <path to main.deploy.json> `
+     -rgName1 <name of rg for primary app> `
+     -rgName2 <name of rg for secondary app> `
+     -rgName3 <name of rg for traffic manager> `
+     -primaryPriority <priority for the primary app> `
+     -secondaryPriority <priority for the secondary app>
+     ```
+    This will deploy the architecture shown above.
