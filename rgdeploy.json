@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {
+        "rgName1": "rg-primary-app",
+        "rgName2": "rg-secondary-app",
+        "rgName3": "rg-trafficManager"
+    },
+    "resources": [
+        {
+        "name": "[variables('rgName1')]",
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2019-10-01",
+        "location": "eastus",
+        "dependsOn": [
+        ],
+        "tags": {
+        }
+    },
+    {
+        "name": "[variables('rgName2')]",
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2019-10-01",
+        "location": "westus",
+        "dependsOn": [
+            "[variables('rgName1')]"
+        ],
+        "tags": {
+        }
+    },
+    {
+        "name": "[variables('rgName3')]",
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2019-10-01",
+        "location": "eastus",
+        "dependsOn": [
+            "[variables('rgName1')]",
+            "[variables('rgName2')]"
+        ],
+        "tags": {
+        }
+    }
+    ],
+    "outputs": {
+        "rgName1": {
+            "type": "string",
+            "value": "[variables('rgName1')]"
+        },
+        "rgName2": {
+            "type": "string",
+            "value": "[variables('rgName2')]"
+        },
+        "rgName3": {
+            "type": "string",
+            "value": "[variables('rgName3')]"
+        }
+    }
+}
