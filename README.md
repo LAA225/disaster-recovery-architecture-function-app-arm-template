@@ -74,7 +74,7 @@ This gives a link to an http link and a code. Go to the link and enter the code 
      Make sure **location of the primary app rg should be different than the secondary app rg. (optimally they should be region pairs)**\
      You can check out azure region pairs [here](https://docs.microsoft.com/en-us/azure/best-practices-availability-paired-regions)
      
-3. Deploy the architecture using the command:\
+3. Deploy the architecture using the command:
      ```
      New-AzResourceGroupDeployment -ResourceGroupName <name of any of the rg you made> -TemplateFile <path to main.deploy.json> `
      -rgName1 <name of rg for primary app> `
