@@ -2,7 +2,7 @@
 
 This arm template seeks to deploy a disaster recovery achitecture following the consupmtion plan of function apps. The architecture to be deployed is as follows:
 
-![architecture diagram](images/architecture diagram.png)
+![architecture diagram](https://raw.githubusercontent.com/LAA225/disaster-recovery-architecture-function-app-arm-template/master/images/architecture%20diagram.png)
 
 The function apps contain the following resources:
 * storage account
