@@ -1,55 +1,58 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "rgName1": 
+        {
+            "type": "string",
+            "defaultValue": "rg-primary-app",
+            "metadata": {
+                "description": "Name of rg to deploy the primary function app in"
+            }
+        },
+        "rgName2": 
+        {
+            "type": "string",
+            "defaultValue": "rg-secondary-app",
+            "metadata": {
+                "description": "Name of rg to deploy the secondary function app in"
+            }
+        },
+        "rgName3": 
+        {
+            "type": "string",
+            "defaultValue": "rg-trafficManager",
+            "metadata": {
+                "description": "Name of rg to deploy the traffic Manager in"
+            }
+        },
+        "primaryPriority": {
+            "type": "int",
+            "defaultValue": 4,
+            "metadata": {
+                "description": "priority of primary region"
+            }
+        },
+        "secondaryPriority": {
+            "type": "int",
+            "defaultValue": 8,
+            "metadata": {
+                "description": "priority of secondary region"
+            }
+        }
+    },
     "functions": [],
     "variables": {
         "baseUri": "https://raw.githubusercontent.com/LAA225/disaster-recovery-architecture-linked-arm-template/master/",
         "primaryDeploymentName": "primaryFunctionDeployment",
         "secondaryDeploymentName": "secondaryFunctionDeployment",
-        "trafficDeploymentName": "trafficManagerDeployment",
-        "rgName1": "rg-primary-app",
-        "rgName2": "rg-secondary-app",
-        "rgName3": "rg-trafficManager"
+        "trafficDeploymentName": "trafficManagerDeployment"
     },
     "resources": [
-    // {
-    //     "name": "[variables('rgName1')]",
-    //     "type": "Microsoft.Resources/resourceGroups",
-    //     "apiVersion": "2019-10-01",
-    //     "location": "eastus",
-    //     "dependsOn": [
-    //     ],
-    //     "tags": {
-    //     }
-    // },
-    // {
-    //     "name": "[variables('rgName2')]",
-    //     "type": "Microsoft.Resources/resourceGroups",
-    //     "apiVersion": "2019-10-01",
-    //     "location": "westus",
-    //     "dependsOn": [
-    //         "[variables('rgName1')]"
-    //     ],
-    //     "tags": {
-    //     }
-    // },
-    // {
-    //     "name": "[variables('rgName3')]",
-    //     "type": "Microsoft.Resources/resourceGroups",
-    //     "apiVersion": "2019-10-01",
-    //     "location": "eastus",
-    //     "dependsOn": [
-    //         "[variables('rgName1')]",
-    //         "[variables('rgName2')]"
-    //     ],
-    //     "tags": {
-    //     }
-    // },
      {
          "name": "[variables('primaryDeploymentName')]",
          "type": "Microsoft.Resources/deployments",
-         "resourceGroup": "[variables('rgName1')]",
+         "resourceGroup": "[parameters('rgName1')]",
          "apiVersion": "2019-10-01",
          
          "properties": {
@@ -66,7 +69,7 @@
      {
          "name": "[variables('secondaryDeploymentName')]",
          "type": "Microsoft.Resources/deployments",
-         "resourceGroup": "[variables('rgName2')]",
+         "resourceGroup": "[parameters('rgName2')]",
          "apiVersion": "2019-10-01",
          
          "properties": {
@@ -84,7 +87,7 @@
          "name": "[variables('trafficDeploymentName')]",
          "type": "Microsoft.Resources/deployments",
          "apiVersion": "2019-10-01",
-         "resourceGroup": "[variables('rgName3')]",
+         "resourceGroup": "[parameters('rgName3')]",
          "dependsOn": [
              "[variables('primaryDeploymentName')]",
              "[variables('secondaryDeploymentName')]"
@@ -101,13 +104,13 @@
                      "value": "[reference(variables('primaryDeploymentName'),'2019-10-01').outputs.id.value]"
                  },
                  "primaryPriority":{
-                     "value": 4
+                     "value": "[parameters('primaryPriority')]"
                  },
                  "secondaryId":{
                      "value": "[reference(variables('secondaryDeploymentName'), '2019-10-01').outputs.id.value]"
                  },
                  "secondaryPriority":{
-                     "value": 8
+                     "value": "[parameters('secondaryPriority')]"
                  }
              }
          }
